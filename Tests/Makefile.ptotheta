@@ -1,5 +1,5 @@
 
-PROGRAM=Tests
+PROGRAM=ptotheta
 
 SOURCE=tests.f90 tests_ptotheta.f90 ../f90trj/ptotheta.f90 ../f90trj/spline.f90
 
