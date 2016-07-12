@@ -184,40 +184,4 @@ CONTAINS
          fun(1)
   END FUNCTION intp1d
 
-
-
 END MODULE ptotheta
-
-
-!PROGRAM test
-!USE ptotheta
-!  REAL :: press(8), press2(8)
-!  REAl :: temp(8), temp2(8)
-!  REAL :: theta(8), theta2(8)
-!  REAL :: resultt(I),resultt2(I)
-!  press=(/1.,5.,10.,50.,100.,500.,800.,1000./)
-!  temp=(/235.,230.,225.,220.,216.,210.,260.,300./)
-!  press=(/1000.,800.,500.,100.,50.,10.,5.,1./)
-!  temp=(/250.,260.,245.,216.,220.,225.,230.,235./)
-
-!  DO I=1,8
-!     theta(I)=ctheta(press(I),temp(I))
-!     WRITE(*,*) theta(I)
-!  END DO
-
-! DO I=1,8
-!   press2(8-I+1)=press(I)
-!   temp2(8-I+1)=temp(I)
-!   theta(8-I+1)=theta(I)
-! END DO
-!  DO I=3,6
-!     resultt(I)=p2theta(press,temp,theta(I),temp)
-!     WRITE(*,*) 'resultt',resultt(I)
-!  END DO
-
-!  DO I=3,6
-!     resultt2(I)=theta2p(theta,temp,press(I),resultt)
-!     WRITE(*,*) 'p',press(I),theta(I),resultt2(I),temp(I)
-!  END DO
-
-!END PROGRAM test
