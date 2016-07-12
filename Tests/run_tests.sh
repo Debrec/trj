@@ -1,1 +1,1 @@
-./ptotheta
+./ptotheta.exe
