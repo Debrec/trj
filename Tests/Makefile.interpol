@@ -1,7 +1,7 @@
 
 PROGRAM=interpol
 
-SOURCE=tests.f90 tests_interpol.f90 ../f90trj/interpol.f90
+SOURCE=../f90trj/interpol.f90 tests.f90 tests_interpol.f90 
 
 F95=gfortran
 

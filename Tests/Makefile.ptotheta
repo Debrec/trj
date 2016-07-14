@@ -1,7 +1,7 @@
 
 PROGRAM=ptotheta
 
-SOURCE=tests.f90 tests_ptotheta.f90 ../f90trj/ptotheta.f90 ../f90trj/interpol.f90
+SOURCE=../f90trj/interpol.f90 ../f90trj/ptotheta.f90 tests.f90 tests_ptotheta.f90  
 
 F95=gfortran
 

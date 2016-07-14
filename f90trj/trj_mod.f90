@@ -171,9 +171,10 @@ CONTAINS
   ! Interpolate meteorological winds to requiered position
   ! for a particle
   SUBROUTINE update()
-    IMPLICIT none
+		use interpolacion
+		IMPLICIT none
     REAL olat,olong
-    EXTERNAL interp2
+    !EXTERNAL interp2
 
     CALL rangcheck(olong,olat)
 
@@ -384,11 +385,12 @@ CONTAINS
   ! Interpolate meteorological winds to requiered position
   ! for a particle
   SUBROUTINE update()
+		USE interpolacion
     IMPLICIT none
     REAL olat,olong,op
     LOGICAL :: inc
     INTEGER :: Jz,i_p
-    EXTERNAL interp2,interp2P
+    !EXTERNAL interp2,interp2P
 
     CALL rangcheck(olong,olat)
 
