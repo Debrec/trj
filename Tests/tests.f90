@@ -8,7 +8,7 @@ CONTAINS
 
 		IF ( size(var1).EQ.size(var2)) THEN
 			DO I = 1,size(var1)
-				IF (ABS(var1(I)-var2(I)).LT.(0.5)) THEN
+				IF (ABS(2*(var1(I)-var2(I))/ABS(var1(I)+var1(I))).LT.(0.05)) THEN
 					assertArraySimilar=.TRUE.
 				ELSE
 					WRITE(*,*) mensaje
@@ -26,7 +26,7 @@ CONTAINS
 		REAL, INTENT(IN) :: var1,var2
 		CHARACTER(*), INTENT(IN), OPTIONAL :: mensaje
 
-		IF (ABS(var1-var2).LT.(0.5)) THEN
+		IF ((2*ABS(var1-var2)/ABS(var1+var1)).LT.(0.1)) THEN
 			assertSimilar=.TRUE.
 		ELSE
 			WRITE(*,*) mensaje

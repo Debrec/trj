@@ -7,8 +7,37 @@
 ! Email : hbraile@gmail.com
 !----------------------------------------------------------------------
 !----------------------------------------------------------------------
-!//////////////////////////////////////////////////////////////////////
+	MODULE interpolacion
+	CONTAINS
+	REAL FUNCTION intp1d(var1,var2,rval,fun)
+		IMPLICIT none
+		REAL, INTENT(IN) ::  fun(2),rval,var1,var2
 
+		intp1d=(fun(2)-fun(1))*((rval-var1)/(var2-var1))+ &
+			 fun(1)
+	END FUNCTION intp1d
+
+	REAL FUNCTION intpa1d(x,XD,YD,N)
+		REAL, INTENT(IN) :: x, XD(N),YD(N)
+		INTEGER, INTENT(IN) :: N
+		INTEGER :: I
+		CALL locateindex(XD,N,X,I)
+		intpa1d = intp1d(XD(I),XD(I+1),x,(/YD(I),YD(I+1)/))
+	END FUNCTION intpa1d
+
+	REAL FUNCTION intp2d(x,y,XD,YD,ZD,Nx,Ny)
+		INTEGER, INTENT(IN) :: Nx,NY
+		REAL, INTENT(IN) :: x,y,XD(Nx),YD(Nx),ZD(NX,NY)
+		REAL :: valorx, valory(Ny)
+		DO iy=1,Ny
+			valory(iy) = intpa1d(x,XD,ZD(:,iy),Nx)
+		END DO
+		valorx = intpa1d(y,YD,valory,Ny)
+
+		intp2d = valorx
+
+	END FUNCTION intp2d
+!//////////////////////////////////////////////////////////////////////
 !----------------------------------------------------------------------
        SUBROUTINE interp2(Xwant,Ywant,Value,X,Y,Array,Nmaxx,Nmaxy)
 !----------------------------------------------------------------------
@@ -29,14 +58,18 @@
 
 !----------------------------------------------------------------------
 !     Procedimientos externos
-      EXTERNAL locateindex
+      !EXTERNAL locateindex
 !
 !-----------------------------------------------------------------------
 !
       CALL locateindex(X,Nmaxx,Xwant,Jx)
       CALL locateindex(Y,Nmaxy,Ywant,Jy)
-      Jxp1=Jx+1
-      Jyp1=Jy+1
+			!IF (jx .EQ. Nmaxx) THEN
+			!	Jxp1 = 1
+			!ELSE
+				Jxp1=Jx+1
+			!END IF
+			Jyp1=Jy+1
 
 !     Look up relevant grid points.
       s1 = Array(Jx,Jy)
@@ -47,7 +80,11 @@
 !      Find slopes used in interpolation;
 !     i) X.
       zta = Xwant - X(Jx)
-      ztb = X(Jxp1) - X(Jx)
+			!IF (jx .EQ. Nmaxx) THEN
+			!	ztb = X(Jxp1)+360 - X(Jx)
+			!ELSE
+				ztb = X(Jxp1) - X(Jx)
+			!END IF
 
       zt = zta/ztb
 
@@ -115,19 +152,19 @@
 
 !----------------------------------------------------------------------
 
-      SUBROUTINE lagintp(x,y,xd,yd)
-      REAL xd(4),yd(4),C(4)
-      REAL x,y
-
-      y=yd(2)+(x-xd(2))*(yd(3)-yd(2))/(xd(3)-xd(2))+(x-xd(2))*(x-xd(3))&
-        *((yd(3)-yd(1))/(xd(3)-xd(1))-(yd(2)-yd(3))/(xd(2)-xd(3)))&
-        / (xd(1)-xd(2))&
-        +(x-xd(2))*(x-xd(3))*(x-xd(1))*&
-        ((((yd(4)-yd(1))/(xd(4)-xd(1))-(yd(1)-yd(3))/(xd(1)-xd(3)))&
-        /(xd(4)-xd(3)))-(((yd(3)-yd(1))/(xd(3)-xd(1))-(yd(2)-yd(3))&
-        /(xd(2)-xd(3)))/(xd(1)-xd(2))))/(xd(4)-xd(3))
-
-      END SUBROUTINE lagintp
+      ! SUBROUTINE lagintp(x,y,xd,yd)
+      ! REAL xd(4),yd(4),C(4)
+      ! REAL x,y
+			!
+      ! y=yd(2)+(x-xd(2))*(yd(3)-yd(2))/(xd(3)-xd(2))+(x-xd(2))*(x-xd(3))&
+      !   *((yd(3)-yd(1))/(xd(3)-xd(1))-(yd(2)-yd(3))/(xd(2)-xd(3)))&
+      !   / (xd(1)-xd(2))&
+      !   +(x-xd(2))*(x-xd(3))*(x-xd(1))*&
+      !   ((((yd(4)-yd(1))/(xd(4)-xd(1))-(yd(1)-yd(3))/(xd(1)-xd(3)))&
+      !   /(xd(4)-xd(3)))-(((yd(3)-yd(1))/(xd(3)-xd(1))-(yd(2)-yd(3))&
+      !   /(xd(2)-xd(3)))/(xd(1)-xd(2))))/(xd(4)-xd(3))
+			!
+      ! END SUBROUTINE lagintp
 
 !----------------------------------------------------------------------
 
@@ -151,7 +188,7 @@
 
 !----------------------------------------------------------------------
 !     Procedimientos externos
-      EXTERNAL locateindex
+      !EXTERNAL locateindex
 !
 !-----------------------------------------------------------------------
 !
@@ -297,3 +334,4 @@
       enddo
       return
       END
+END MODULE interpolacion

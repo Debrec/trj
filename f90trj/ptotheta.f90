@@ -7,17 +7,20 @@
 !----------------------------------------------------------------------
 !----------------------------------------------------------------------
 MODULE ptotheta
+	USE interpolacion
+	IMPLICIT none
+
   PRIVATE
   REAL, PARAMETER :: ktheta=0.286
   REAL, PARAMETER :: P0=1013 ! Surface presure (hPa)
   INTEGER :: ints ! Interpolation 0 for lineal 1 for splines
-
   PUBLIC :: p2theta, theta2p, ctheta
 
 CONTAINS
   REAL FUNCTION ctheta(P,T,Ps)
     REAL, INTENT(IN) :: P,T
     REAL, INTENT(IN), OPTIONAL :: Ps
+		REAL :: Psurf
     IF(PRESENT(Ps)) THEN
        Psurf=Ps ! If the optional argument Ps
     ELSE         ! exist, use this as the surface
@@ -36,7 +39,7 @@ CONTAINS
 
     REAL :: thetap(SIZE(P))
     REAL :: Psurf, P_th, T_th, theta_th
-    INTEGER :: npl, i_th
+    INTEGER :: npl, i_th, jpl
     LOGICAL :: inc
 
     npl=SIZE(P)
@@ -65,30 +68,25 @@ CONTAINS
     END IF
 
     IF(ints.EQ.0) THEN ! lineal interpolation
-    !Now look for corresponding theta level
-    IF(inc.EQV..TRUE.) THEN
-       DO Jpl=1,npl-1
-          IF((theta.GE.thetap(Jpl)).AND.(theta.LT.thetap(Jpl+1))) THEN
-             i_th=Jpl
-          END IF
-       END DO
-    ELSE
-       DO Jpl=1,npl-1
-          IF((theta.LT.thetap(Jpl)).AND.(theta.GE.thetap(Jpl+1))) THEN
-             i_th=Jpl
-          END IF
-       END DO
-    END IF
+    	!Now look for corresponding theta level
+    	IF(inc.EQV..TRUE.) THEN
+       	DO Jpl=1,npl-1
+          	IF((theta.GE.thetap(Jpl)).AND.(theta.LT.thetap(Jpl+1))) THEN
+             	i_th=Jpl
+          	END IF
+       	END DO
+    	ELSE
+       	DO Jpl=1,npl-1
+          	IF((theta.LT.thetap(Jpl)).AND.(theta.GE.thetap(Jpl+1))) THEN
+             	i_th=Jpl
+          	END IF
+       	END DO
+    	END IF
 
-    ! Do the maths
-    P_th=intp1d(thetap(i_th),thetap(i_th+1),theta,P(i_th:i_th+1))
-    T_th=intp1d(thetap(i_th),thetap(i_th+1),theta,T(i_th:i_th+1))
-    p2theta=intp1d(thetap(i_th),thetap(i_th+1),theta,var(i_th:i_th+1))
-
-    ELSE IF(ints.EQ.1) THEN
-       CALL spline(thetap,P,npl,theta,P_th,1)
-       CALL spline(thetap,T,npl,theta,T_th,1)
-       CALL spline(thetap,var,npl,theta,p2theta,1)
+    	! Do the maths
+    	P_th=intp1d(thetap(i_th),thetap(i_th+1),theta,P(i_th:i_th+1))
+    	T_th=intp1d(thetap(i_th),thetap(i_th+1),theta,T(i_th:i_th+1))
+    	p2theta=intp1d(thetap(i_th),thetap(i_th+1),theta,var(i_th:i_th+1))
     ELSE
 
        WRITE(0,*)'Unknown interpolation method'
@@ -111,7 +109,7 @@ CONTAINS
 
     REAL :: ptheta(SIZE(theta))
     REAL :: Psurf, P_th, T_th, theta_th
-    INTEGER :: npl, i_th
+    INTEGER :: npl, i_th, jpl
     LOGICAL :: inc
 
     npl=SIZE(theta)
@@ -141,31 +139,25 @@ CONTAINS
 
     IF(ints.EQ.0) THEN ! lineal interpolation
     !Now look for corresponding theta level
-    IF(inc.EQV..TRUE.) THEN
-       DO Jpl=1,npl-1
-          IF((P.GE.ptheta(Jpl)).AND.(P.LT.ptheta(Jpl+1))) THEN
-             i_th=Jpl
-          END IF
-       END DO
-    ELSE
-       DO Jpl=1,npl-1
+    	IF(inc.EQV..TRUE.) THEN
+       	DO Jpl=1,npl-1
+          	IF((P.GE.ptheta(Jpl)).AND.(P.LT.ptheta(Jpl+1))) THEN
+             	i_th=Jpl
+          	END IF
+       	END DO
+    	ELSE
+       	DO Jpl=1,npl-1
           IF((P.LT.ptheta(Jpl)).AND.(P.GE.ptheta(Jpl+1))) THEN
              i_th=Jpl
           END IF
-       END DO
-    END IF
+       	END DO
+    	END IF
 
-    ! Do the maths
-    theta_th=intp1d(ptheta(i_th),ptheta(i_th+1),P,theta(i_th:i_th+1))
-    T_th=intp1d(ptheta(i_th),ptheta(i_th+1),P,T(i_th:i_th+1))
-    theta2p=intp1d(ptheta(i_th),ptheta(i_th+1),P,var(i_th:i_th+1))
-
-    ELSE IF(ints.EQ.1) THEN
-       CALL spline(thetap,theta,npl,P,theta_th,1)
-       CALL spline(thetap,T,npl,P,T_th,1)
-       CALL spline(thetap,var,npl,P,theta2p,1)
+    	! Do the maths
+    	theta_th=intp1d(ptheta(i_th),ptheta(i_th+1),P,theta(i_th:i_th+1))
+    	T_th=intp1d(ptheta(i_th),ptheta(i_th+1),P,T(i_th:i_th+1))
+    	theta2p=intp1d(ptheta(i_th),ptheta(i_th+1),P,var(i_th:i_th+1))
     ELSE
-
        WRITE(0,*)'Unknown interpolation method'
     END IF
     !Check for consistency
@@ -176,12 +168,5 @@ CONTAINS
     END IF
 
   END FUNCTION theta2p
-
-  REAL FUNCTION intp1d(var1,var2,rval,fun)
-    REAL, INTENT(IN) ::  fun(2),rval,var1,var2
-
-    intp1d=(fun(2)-fun(1))*((rval-var1)/(var2-var1))+ &
-         fun(1)
-  END FUNCTION intp1d
 
 END MODULE ptotheta
