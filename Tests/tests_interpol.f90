@@ -6,7 +6,7 @@ MODULE tests_interpol
 CONTAINS
 	SUBROUTINE test_interpol
 		real, parameter :: pi=3.1415927
-		INTEGER, PARAMETER :: Nx=100,Ny=100, Nout=6
+		INTEGER, PARAMETER :: Nx=30,Ny=40, Nout=6
 		REAL :: xwant(4), ywant(3), val, mval
 		REAL :: valor(Nx),x(Nx),y(Ny),array(Nx,Ny)
 		INTEGER :: i,j
@@ -34,18 +34,6 @@ CONTAINS
 		 		 CALL interp2P(xwant(i),ywant(j),val,x,y,array,Nx,Ny)
 		 		 CALL checkTests(assertSimilar(val,mval,'Error al comparar el valor calculado con el interpolado: interp2P'))
 			END DO
-		END DO
-
-		CALL mrun('test_interpol, intpa1d ')
-
-		DO i=1,Nx
-			valor(i) = 3.*cos(2.*pi*x(i)/360.)
-		END DO
-
-		DO i=1,4
-			mval = 3.*cos(2.*pi*xwant(i)/360.)
-			val = intpa1d(xwant(i),x,valor,Nx)
-			CALL checkTests(assertSimilar(val,mval,'Error al comparar el valor calculado con el interpolado: intpa1d'))
 		END DO
 
 		CALL mrun('test_interpol, intp2d ')

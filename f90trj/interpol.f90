@@ -17,25 +17,15 @@
 			 fun(1)
 	END FUNCTION intp1d
 
-	REAL FUNCTION intpa1d(x,XD,YD,N)
-		REAL, INTENT(IN) :: x, XD(N),YD(N)
-		INTEGER, INTENT(IN) :: N
-		INTEGER :: I
-		CALL locateindex(XD,N,X,I)
-		intpa1d = intp1d(XD(I),XD(I+1),x,(/YD(I),YD(I+1)/))
-	END FUNCTION intpa1d
-
 	REAL FUNCTION intp2d(x,y,XD,YD,ZD,Nx,Ny)
 		INTEGER, INTENT(IN) :: Nx,NY
-		REAL, INTENT(IN) :: x,y,XD(Nx),YD(Nx),ZD(NX,NY)
-		REAL :: valorx, valory(Ny)
-		DO iy=1,Ny
-			valory(iy) = intpa1d(x,XD,ZD(:,iy),Nx)
-		END DO
-		valorx = intpa1d(y,YD,valory,Ny)
-
-		intp2d = valorx
-
+		REAL, INTENT(IN) :: x,y,XD(Nx),YD(Ny),ZD(NX,NY)
+		REAL :: valor(2)
+		CALL locateindex(XD,Nx,x,ix)
+    CALL locateindex(YD,Ny,y,iy)
+		valor(1) = intp1d(XD(ix),XD(ix+1),x,(/ZD(ix,iy),ZD(ix+1,iy)/))
+    valor(2) = intp1d(XD(ix),XD(ix+1),x,(/ZD(ix,iy+1),ZD(ix+1,iy+1)/))
+    intp2d = intp1d(YD(iy),YD(iy+1),y,(/valor(1), valor(2)/))
 	END FUNCTION intp2d
 !//////////////////////////////////////////////////////////////////////
 !----------------------------------------------------------------------

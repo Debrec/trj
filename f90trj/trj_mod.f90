@@ -180,32 +180,9 @@ CONTAINS
 
     Theta_part=th_surf
 
-    intpm=1
+    intpm=2
 
-    IF(intpm.EQ.0) THEN
-       CALL interp2(olong,olat,U_part,long_surf(1:nx,1),&
-            lat_surf(1,1:ny),U_surf,nx,ny)
-
-       CALL interp2(olong,olat,V_part,long_surf(1:nx,1),&
-            lat_surf(1,1:ny),V_surf,nx,ny)
-
-       CALL interp2(olong,olat,T_part,long_surf(1:nx,1),&
-            lat_surf(1,1:ny),T_surf,nx,ny)
-
-       CALL interp2(olong,olat,P_part,long_surf(1:nx,1),&
-               lat_surf(1,1:ny),P_surf,nx,ny)
-
-       CALL interp2(olong,olat,Alt_part,long_surf(1:nx,1),&
-            lat_surf(1,1:ny),Alt_surf,nx,ny)
-
-       CALL interp2(olong,olat,pv_part,long_surf(1:nx,1),&
-           lat_surf(1,1:ny),pv_surf,nx,ny)
-
-       CALL interp2(olong,olat,o3_part,long_surf(1:nx,1),&
-             lat_surf(1,1:ny),o3_surf,nx,ny)
-
-    ELSE IF(intpm.EQ.1) THEN
-
+    IF(intpm.EQ.1) THEN
        CALL interp2P(olong,olat,U_part,long_surf(1:nx,1),&
             lat_surf(1,1:ny),U_surf,nx,ny)
 
@@ -227,6 +204,30 @@ CONTAINS
        CALL interp2P(olong,olat,o3_part,long_surf(1:nx,1),&
             lat_surf(1,1:ny),o3_surf,nx,ny)
 
+    ELSE IF (intpm.EQ.2) THEN
+		   U_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),U_surf,nx,ny)
+
+       V_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),V_surf,nx,ny)
+
+       T_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),T_surf,nx,ny)
+
+       P_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),P_surf,nx,ny)
+
+       Alt_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),Alt_surf,nx,ny)
+
+       pv_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),pv_surf,nx,ny)
+
+       o3_part = intp2d(olong,olat,long_surf(1:nx,1),&
+            lat_surf(1,1:ny),o3_surf,nx,ny)
+    ELSE
+      WRITE(*,*) 'Método de interpolación desconocido'
+      STOP
     END IF
 
   END SUBROUTINE update
@@ -442,29 +443,7 @@ CONTAINS
 
     intpm=1
 
-    IF(intpm.EQ.0) THEN
-       CALL interp2(olong,olat,U_part,long_curr(1:nx,1),&
-            lat_curr(1,1:ny),U2a,nx,ny)
-
-       CALL interp2(olong,olat,V_part,long_curr(1:nx,1),&
-            lat_curr(1,1:ny),V2a,nx,ny)
-
-       CALL interp2(olong,olat,T_part,long_curr(1:nx,1),&
-            lat_curr(1,1:ny),T2a,nx,ny)
-
-       CALL interp2(olong,olat,Alt_part,long_curr(1:nx,1),&
-            lat_curr(1,1:ny),Alt2a,nx,ny)
-
-       CALL interp2(olong,olat,pv_part,long_curr(1:nx,1),&
-           lat_curr(1,1:ny),pv2a,nx,ny)
-
-       CALL interp2(olong,olat,o3_part,long_curr(1:nx,1),&
-            lat_curr(1,1:ny),O32a,nx,ny)
-
-       CALL interp2(olong,olat,W_part,long_curr(1:nx,1),&
-           lat_curr(1,1:ny),W2a,nx,ny)
-
-    ELSE IF(intpm.EQ.1) THEN
+    IF(intpm.EQ.1) THEN
 
        CALL interp2P(olong,olat,U_part,long_curr(1:nx,1),&
             lat_curr(1,1:ny),U2a,nx,ny)
@@ -487,9 +466,32 @@ CONTAINS
        CALL interp2P(olong,olat,W_part,long_curr(1:nx,1),&
             lat_curr(1,1:ny),W2a,nx,ny)
 
-    END IF
-    ! WRITE(*,*)U_part,V_part,T_part,Alt_part
+    ELSE IF (intpm.EQ.2) THEN
 
+	     U_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),U2a,nx,ny)
+
+	     V_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),V2a,nx,ny)
+
+	     T_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),T2a,nx,ny)
+
+	     Alt_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),Alt2a,nx,ny)
+
+	     pv_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),pv2a,nx,ny)
+
+	     o3_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	          lat_curr(1,1:ny),O32a,nx,ny)
+
+	     W_part = intp2d(olong,olat,long_curr(1:nx,1),&
+	         lat_curr(1,1:ny),W2a,nx,ny)
+    ELSE
+      WRITE(*,*) 'Método de interpolación desconocido'
+      STOP
+		END IF
   END SUBROUTINE update
 
   REAL FUNCTION intp1d(var1,var2,rval,fun)
