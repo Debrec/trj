@@ -2,10 +2,10 @@
 !-----------------------------------------------------------------------
 ! Enero 2015
 ! Este modulo es parte del modelo trj.
-! Subrutinas auxiliares para obtener las derivadas temporales usadas en 
+! Subrutinas auxiliares para obtener las derivadas temporales usadas en
 ! odeint
 ! dx/dt y dy/dt, Coordenadas locales curvilineas.
-! Autor : Hernán H. G. Braile
+! Autor : Hernï¿½n H. G. Braile
 ! Email : hbraile@gmail.com
 !-----------------------------------------------------------------------
 !-----------------------------------------------------------------------
@@ -32,7 +32,7 @@
 
       CALL Latcheck2()
       CALL update()
-      
+
       CALL strwinds(rlong,rlat,U_part,V_part,&
                Ustr,Vstr)
       Dydt(1)=Ustr
@@ -64,7 +64,7 @@
 
       CALL Latcheck2()
       CALL update()
-      
+
       CALL strwindsN(rlong,rlat,U_part,V_part,&
                Ustr,Vstr)
       Dydt(1)=Ustr
@@ -141,4 +141,3 @@
 
       END SUBROUTINE derivstrN_3d
 !----------------------------------------------------------------------
-

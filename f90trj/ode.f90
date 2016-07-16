@@ -38,11 +38,11 @@ SUBROUTINE ode(x,y,xf,yf,t1,t2,derivs)
   !--------------------------------------------------------------------
   eps=1.0e-03
   !h1=0.1*ABS(t2-t1)
-  hmin=0.01e-03
+  !hmin=0.01e-03
   yini(1)=x
   yini(2)=y
 
-	CALL adaptive(yini,2,t1,t2,eps,500,derivs)
+	CALL adaptive(yini,2,t1,t2,eps,1000,derivs)
 
   xf=yini(1)
   yf=yini(2)
@@ -85,8 +85,8 @@ SUBROUTINE ode_3d(x,y,z,xf,yf,zf,t1,t2,derivs)
   EXTERNAL derivs,rkqs
   !--------------------------------------------------------------------
   eps=1.0e-03 !07
-  h1=0.1*ABS(t2-t1)
-  hmin=0.01e-03 !3
+  !h1=0.1*ABS(t2-t1)
+  !hmin=0.01e-03 !3
   yini(1)=x
   yini(2)=y
   yini(3)=z

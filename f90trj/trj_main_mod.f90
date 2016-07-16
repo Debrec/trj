@@ -70,7 +70,6 @@ CONTAINS
     INTEGER GF
     INTEGER ipartx,iparty,I
     INTEGER itime,ipart,jtraj
-    INTEGER, PARAMETER :: dp = SELECTED_REAL_KIND(12,307)
 
     CALL read_conf_file(filein,filetrc,GF)! read the configuration file and allocate
                                    ! room for the arrays
@@ -167,7 +166,7 @@ CONTAINS
     DO i=1,Npart
       CALL rangcheck(Long(i,1),Lat(i,1))
     END DO
-		IF((FLOOR(REAL(Ntime*(itout)/Nout)).EQ.(itime+1)).OR.(itime.EQ.1)) THEN
+		IF((FLOOR(REAL(Ntime*(itout)/Nout)).EQ.(itime)).OR.(itime.EQ.1)) THEN
 		   CALL jul2greg(rtime,tyear,tmonth,tday,thour)
        CALL write_trj_nc_file(ncid_trj,rtime, &
             (/'Long ', 'lat  ','Temp ','Press','Pv   ','O3   '/) ,(/Long(:,1),&
@@ -544,14 +543,20 @@ SUBROUTINE trj_main_3d
 END SUBROUTINE trj_main_3d
 
 PROGRAM trj
-  LOGICAL :: flag3d
+  CHARACTER(2) :: flag3d
+  !LOGICAL :: flag3d
   !flag3d=.TRUE.
-  flag3d=.FALSE.
-
-  IF(flag3d.NEQV..TRUE.) THEN
+  !flag3d=.FALSE.
+  OPEN(17,FILE='dimension.cfg')
+  READ(17,*)flag3d
+  CLOSE(17)
+  !IF(flag3d.NEQV..TRUE.) THEN
+  IF(flag3d.EQ.'2d') THEN
      CALL trj_main
-  ELSE
+  ELSE IF(flag3d.EQ.'3d') THEN
      CALL trj_main_3d
+  ELSE
+    WRITE(*,*) 'Interface Incorrecta'
   ENDIF
 
 END PROGRAM trj

@@ -441,7 +441,7 @@ CONTAINS
        END DO
     END DO
 
-    intpm=1
+    intpm=2
 
     IF(intpm.EQ.1) THEN
 
@@ -513,5 +513,3 @@ END MODULE current_3d
 ! Thinks to do:
 
 ! >> A subroutine for local trajectories (Not global coveradge of data).
-
-! >> Add vertical diabatic transport, maybe using as source the heating rates.

@@ -45,7 +45,7 @@ CONTAINS
     CALL dim_ecmwf_nc_file(filein, &
          'latitude',nro(2))
     CALL dim_ecmwf_nc_file(filein, &
-         'levelist',nro(3))
+         'level',nro(3))
     CALL dim_ecmwf_nc_file(filein, &
          'time',nro(4))
 
@@ -67,7 +67,7 @@ CONTAINS
     CALL read_dim_ecmwf_nc_file(filein, &
          'latitude',lat,ny)
     CALL read_dim_ecmwf_nc_file(filein, &
-         'levelist',P,nz)
+         'level',P,nz)
     CALL read_dim_ecmwf_nc_file(filein, &
          'time',time,nt)
 
@@ -88,7 +88,6 @@ CONTAINS
     CALL read_ecmwf_nc_file(filein,'t',T,units,nro,it1,it2)
   	CALL read_ecmwf_nc_file(filein,'u',U,units,nro,it1,it2)
     CALL read_ecmwf_nc_file(filein,'v',V,units,nro,it1,it2)
-
     CALL read_ecmwf_nc_file(filetrc,'pv',PV,units,nro,it1,it2)
 
   END SUBROUTINE read_curr

@@ -1,7 +1,7 @@
 PRGSTR=strgrid
 PRGRD=trjread
 
-SRCSTR=strgridmain.f90 ../f90trj/spline.f90 ../f90trj/stereograph.f90
+SRCSTR=strgridmain.f90 ../f90trj/stereograph.f90
 SRCRD=../f90trj/date_conv.f90 trj_netcdf_r.f90
 
 F95=gfortran

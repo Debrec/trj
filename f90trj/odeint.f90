@@ -34,17 +34,21 @@ SUBROUTINE adaptive(yi,n,xi,xf,htol,mmax,derivs)
 				CALL rk4(y1,x1,x1+h1,y2,2,derivs)
 				m= m + 1
 			ELSE
-				var1 = (abs(y2(1)-y1(1)) .GE. (htol*(abs(y1(1)))))
-				var2 = (abs(y2(2)-y1(2)) .GE. (htol*(abs(y1(2)))))
+				var1 = (abs(y2(1)-y1(1)) .GE. (htol*(abs(y1(1)+y2(2))/2)))
+				var2 = (abs(y2(2)-y1(2)) .GE. (htol*(abs(y1(2)+y2(2))/2)))
 				IF ( var1 .AND. var2 .AND. (m .LT. mmax)) THEN
 					h1 = (x2-x1)/m
 					CALL rk4(y1,x1,x1+h1,y2,2,derivs)
 					m= m + 1
-				ELSE
+        ELSE IF (m.GE.mmax) THEN
+          WRITE(*,*) 'ERROR - m mayor o igual que mmax en adaptive ode'
+          STOP
+    		ELSE
 					EXIT
 				END IF
 			END IF
 		END DO
+
 		ytemp = y1
 		y1=y2
 		y2=ytemp
