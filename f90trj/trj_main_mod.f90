@@ -188,9 +188,10 @@ CONTAINS
        END DO
        rtime=irtime+REAL(Ntime-1)*its/60.
        CALL jul2greg(rtime,tyear,tmonth,tday,thour)
-       WRITE(0,FMT='(A,F12.2,I4,X,I2.2,"/",I2.2,"/",I4,X,I2.2,":",I2.2,":",I2.2)') 'Tiempo',time(1),itime, &
+       itime = itime + 1
+       WRITE(0,FMT='(A,F12.2,I4,X,I2.2,"/",I2.2,"/",I4,X,I2.2,":",I2.2,":",I2.2,X,"%",F6.2)') 'Tiempo',time(1),itime, &
        NINT(tday),NINT(tmonth),NINT(tyear),FLOOR(thour),FLOOR((thour-FLOOR(thour))*60.), &
-       FLOOR(((thour-FLOOR(thour))*60.-FLOOR((thour-FLOOR(thour))*60.))*60.)
+       FLOOR(((thour-FLOOR(thour))*60.-FLOOR((thour-FLOOR(thour))*60.))*60.),REAL(100.*REAL(itime)/REAL(Ntime))
 
        CALL write_trj_nc_file(ncid_trj,rtime, &
             (/'Long ', 'lat  ','Temp ','Press','Pv   ','O3   '/) ,(/Long(:,2),&

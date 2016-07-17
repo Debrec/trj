@@ -26,5 +26,3 @@ theta                    #Temperatura potencial,define la superficie isentropica
 its                      #Intervalo de integracion temporal en minutos
 GF                       #Si es 0 se utiliza una grilla uniforme con los valores introducidos anteriormente  si es 1 se leen
                          #las posiciones iniciales desde un archivo de configuracion. Del archivo input/temp_trj.dat
-
--->  trj3d.cfg
