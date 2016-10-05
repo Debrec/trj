@@ -545,13 +545,11 @@ END SUBROUTINE trj_main_3d
 
 PROGRAM trj
   CHARACTER(2) :: flag3d
-  !LOGICAL :: flag3d
-  !flag3d=.TRUE.
-  !flag3d=.FALSE.
+
   OPEN(17,FILE='dimension.cfg')
   READ(17,*)flag3d
   CLOSE(17)
-  !IF(flag3d.NEQV..TRUE.) THEN
+
   IF(flag3d.EQ.'2d') THEN
      CALL trj_main
   ELSE IF(flag3d.EQ.'3d') THEN

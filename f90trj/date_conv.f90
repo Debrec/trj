@@ -245,12 +245,3 @@ END FUNCTION leap
 
 !-----------------------------------------------------------------------
 !-----------------------------------------------------------------------
-
-!PROGRAM test
-!  USE date_conv
-!  REAL :: data
-!  REAL(8) :: omonth,oday
-!  data=julday(DBLE(2004.),DBLE(10.),DBLE(15.),DBLE(0.))
-!  CALL gregday(DBLE(data),DBLE(2004.),omonth,oday)
-!  WRITE(*,*)data,omonth,oday
-!END PROGRAM test

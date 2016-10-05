@@ -44,8 +44,10 @@ CONTAINS
          'longitude',nro(1))
     CALL dim_ecmwf_nc_file(filein, &
          'latitude',nro(2))
+!    CALL dim_ecmwf_nc_file(filein, &
+!              'level',nro(3))
     CALL dim_ecmwf_nc_file(filein, &
-         'level',nro(3))
+         'levelist',nro(3))
     CALL dim_ecmwf_nc_file(filein, &
          'time',nro(4))
 
@@ -66,8 +68,10 @@ CONTAINS
          'longitude',lon,nx)
     CALL read_dim_ecmwf_nc_file(filein, &
          'latitude',lat,ny)
+!    CALL read_dim_ecmwf_nc_file(filein, &
+!         'level',P,nz)
     CALL read_dim_ecmwf_nc_file(filein, &
-         'level',P,nz)
+          'levelist',P,nz)
     CALL read_dim_ecmwf_nc_file(filein, &
          'time',time,nt)
 

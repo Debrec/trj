@@ -5,9 +5,6 @@ SOURCE=interpol.f90 trj_mod.f90 ptotheta.f90 trj_netcdf.f90 date_conv.f90 trj_wi
 F95=gfortran
 
 FFLAGS=-fdefault-real-8 -fbounds-check
-#FFLAGS = -freal-4-real-16 -fbounds-check
-
-#LIBS=-L/lib -L/usr/lib -L../Lib -lnetcdff -lslatec  -lhdf5_hl -lhdf5 -lz -lm
 LIBS=-L/lib -L/usr/lib -L../Lib -lnetcdff
 INCLUDES = -I/usr/include
 

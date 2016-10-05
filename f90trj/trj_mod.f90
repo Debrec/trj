@@ -509,7 +509,3 @@ END MODULE current_3d
 !//////////////////////////////////////////////////////////////////////
 
 !----------------------------------------------------------------------
-
-! Thinks to do:
-
-! >> A subroutine for local trajectories (Not global coveradge of data).
